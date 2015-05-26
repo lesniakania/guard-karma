@@ -5,7 +5,7 @@ require 'guard/karma/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "guard-karma"
-  spec.version       = Guard::Karma::VERSION
+  spec.version       = Guard::KarmaVersion::VERSION
   spec.authors       = ["Ania Slimak"]
   spec.email         = ["anna.slimak@lunarlogic.io"]
   spec.summary       = %q{TODO: Write a short summary. Required.}
@@ -20,4 +20,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_dependency "guard", "~> 2.1"
+  spec.add_dependency 'guard-compat', '~> 1.1'
 end

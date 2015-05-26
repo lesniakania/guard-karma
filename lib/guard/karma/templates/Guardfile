@@ -1,0 +1,15 @@
+guard :karma,
+  cmd: './bin/karma',
+  all_on_start: true do
+  watch(%r{spec/javascripts/spec\.(js\.coffee|js|coffee)$}) do
+    'spec/javascripts'
+  end
+  watch(%r{spec/javascripts/.+_spec\.(js\.coffee|js|coffee)$})
+  watch(%r{spec/javascripts/fixtures/.+$})
+  watch(
+    %r{app/assets/javascripts/(.+?)\.(js\.coffee|js|coffee)(?:\.\w+)*$}
+  ) do |m|
+    "spec/javascripts/#{ m[1] }_spec.#{ m[2] }"
+  end
+end
+
