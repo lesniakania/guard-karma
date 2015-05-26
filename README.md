@@ -1,6 +1,7 @@
 # Guard::Karma
 
-TODO: Write a gem description
+Guard plugin for [Karma](http://karma-runner.github.io/0.12/index.html).
+Unfortunatelly I couldn't find a way to run specific test file, so it runs them all, but it's still useful for me.
 
 ## Installation
 
@@ -12,15 +13,31 @@ gem 'guard-karma'
 
 And then execute:
 
-    $ bundle
+```
+bundle
+```
 
 Or install it yourself as:
 
-    $ gem install guard-karma
+```
+gem install guard-karma
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+guard init guard-karma
+```
+
+Supported options:
+- `cmd` - command which will be run on each change; by default `./bin/karma` is used, you can put there e. g.:
+```bash
+#!/bin/bash
+
+./node_modules/karma/bin/karma start spec/karma.conf.coffee --single-run
+```
+- `all_on_start` - when true, tests will be run on guard start
+
 
 ## Contributing
 
