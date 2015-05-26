@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Guard::KarmaVersion::VERSION
   spec.authors       = ["Ania Slimak"]
   spec.email         = ["anna.slimak@lunarlogic.io"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Guard plugin for Karma runner}
+  spec.description   = %q{Guard plugin for Karma runner}
+  spec.homepage      = "https://github.com/lesniakania/guard-karma"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
