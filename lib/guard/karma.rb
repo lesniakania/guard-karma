@@ -2,6 +2,11 @@ require "guard/karma/version"
 
 module Guard
   class Karma < Guard::Plugin
+    RUNNING_TITLE = 'Karma running...'.freeze
+    FAILED_TITLE = 'Karma failed.'.freeze
+    SUCCESS_TITLE = 'Karma success.'.freeze
+    MESSAGE = 'See console for results.'
+
     # Initializes a Guard plugin.
     # Don't do any work here, especially as Guard plugins get initialized even if they are not in an active group!
     #
@@ -9,6 +14,7 @@ module Guard
     # @option options [Array<Guard::Watcher>] watchers the Guard plugin file watchers
     # @option options [Symbol] group the group this Guard plugin belongs to
     # @option options [Boolean] any_return allow any object to be returned from a watcher
+    # @option options [Boolean] notification display notifications when tests run
     #
     def initialize(options = {})
       super
@@ -83,7 +89,21 @@ module Guard
     private
 
     def run_cmd
-      system(options[:cmd])
+      Guard::Compat::UI.info(RUNNING_TITLE, reset: true)
+
+      if options[:notification]
+        Guard::Compat::UI.notify('', title: RUNNING_TITLE, image: :pending, priority: -1)
+      end
+
+      rval = system(options[:cmd])
+
+      if options[:notification]
+        if rval
+          Guard::Compat::UI.notify(MESSAGE, title: SUCCESS_TITLE, image: :success, priority: -1)
+        else
+          Guard::Compat::UI.notify(MESSAGE, title: FAILED_TITLE, image: :failed, priority: 2)
+        end
+      end
     end
   end
 end
