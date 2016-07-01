@@ -1,12 +1,8 @@
 require "guard/karma/version"
+require "guard/karma/notifier"
 
 module Guard
   class Karma < Guard::Plugin
-    RUNNING_TITLE = 'Karma running...'.freeze
-    FAILED_TITLE = 'Karma failed.'.freeze
-    SUCCESS_TITLE = 'Karma success.'.freeze
-    MESSAGE = 'See console for results.'
-
     # Initializes a Guard plugin.
     # Don't do any work here, especially as Guard plugins get initialized even if they are not in an active group!
     #
@@ -18,6 +14,7 @@ module Guard
     #
     def initialize(options = {})
       super
+      @notifier = Notifier.new(options)
     end
 
     # Called once when Guard starts. Please override initialize method to init stuff.
@@ -89,21 +86,13 @@ module Guard
     private
 
     def run_cmd
-      Guard::Compat::UI.info(RUNNING_TITLE, reset: true)
+      Guard::Compat::UI.info('Running Karma', reset: true)
 
-      if options[:notification]
-        Guard::Compat::UI.notify('', title: RUNNING_TITLE, image: :pending, priority: -1)
-      end
+      @notifier.notify_start
 
-      rval = system(options[:cmd])
+      output = IO.popen(options[:cmd]) { |f| f.readlines.tap { |out| puts out } }
 
-      if options[:notification]
-        if rval
-          Guard::Compat::UI.notify(MESSAGE, title: SUCCESS_TITLE, image: :success, priority: -1)
-        else
-          Guard::Compat::UI.notify(MESSAGE, title: FAILED_TITLE, image: :failed, priority: 2)
-        end
-      end
+      @notifier.notify(output.last)
     end
   end
 end
