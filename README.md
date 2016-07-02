@@ -1,7 +1,7 @@
 # Guard::Karma
 
 Guard plugin for [Karma](http://karma-runner.github.io/0.12/index.html).
-Unfortunatelly I couldn't find a way to run specific test file, so it runs them all, but it's still useful for me.
+Unfortunately I couldn't find a way to run specific test file, so it runs them all, but it's still useful for me.
 
 ## Installation
 
@@ -37,6 +37,7 @@ Supported options:
 ./node_modules/karma/bin/karma start spec/karma.conf.coffee --single-run
 ```
 - `all_on_start` - when true, tests will be run on guard start
+- `notification` - when true, display notification before and after tests run
 
 
 ## Contributing

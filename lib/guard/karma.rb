@@ -1,4 +1,5 @@
 require "guard/karma/version"
+require "guard/karma/notifier"
 
 module Guard
   class Karma < Guard::Plugin
@@ -9,9 +10,11 @@ module Guard
     # @option options [Array<Guard::Watcher>] watchers the Guard plugin file watchers
     # @option options [Symbol] group the group this Guard plugin belongs to
     # @option options [Boolean] any_return allow any object to be returned from a watcher
+    # @option options [Boolean] notification display notifications when tests run
     #
     def initialize(options = {})
       super
+      @notifier = Notifier.new(options)
     end
 
     # Called once when Guard starts. Please override initialize method to init stuff.
@@ -83,7 +86,13 @@ module Guard
     private
 
     def run_cmd
-      system(options[:cmd])
+      Guard::Compat::UI.info('Running Karma', reset: true)
+
+      @notifier.notify_start
+
+      output = IO.popen(options[:cmd]) { |f| f.readlines.tap { |out| puts out } }
+
+      @notifier.notify(output.last)
     end
   end
 end
