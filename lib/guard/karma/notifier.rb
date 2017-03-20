@@ -36,11 +36,15 @@ module Guard
       private
 
       def parse_summary(summary)
+        # Example:
+        # Executed x of y (n FAILED) (skipped z)
         summary.match(/Executed\ (\d+)\ of\ (\d+)\ \((\d+)\ FAILED\)/) do |match|
           return [match[1].to_i, match[2].to_i, match[3].to_i]
         end
 
-        summary.match(/Executed\ (\d+)\ of\ (\d+)\ SUCCESS/) do |match|
+        # Example:
+        # Executed x of y (skipped z) SUCCESS
+        summary.match(/Executed\ (\d+)\ of\ (\d+).*\ SUCCESS/) do |match|
           return [match[1].to_i, match[2].to_i, 0]
         end
 
